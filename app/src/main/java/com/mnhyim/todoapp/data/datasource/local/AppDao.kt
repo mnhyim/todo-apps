@@ -3,6 +3,7 @@ package com.mnhyim.todoapp.data.datasource.local
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.Query
+import androidx.room.Update
 import com.mnhyim.todoapp.data.entity.TodoEntity
 import kotlinx.coroutines.flow.Flow
 
@@ -14,4 +15,7 @@ interface AppDao {
 
     @Insert
     fun insertTodos(vararg todos: TodoEntity)
+
+    @Update
+    fun updateTodo(todo: TodoEntity)
 }

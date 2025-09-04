@@ -8,4 +8,5 @@ interface TodoRepository {
 
     fun getTodos(): Flow<Resource<List<Todo>>>
     fun insertTodos(todos: Todo)
+    fun updateTodo(todo: Todo)
 }

@@ -11,7 +11,8 @@ import kotlinx.coroutines.flow.flow
 class TodoRepositoryImpl(
     private val dao: AppDao,
     private val api: TodoApiService
-): TodoRepository {
+) : TodoRepository {
+
 
     override fun getTodos(): Flow<Resource<List<Todo>>> = flow {
         emit(Resource.Loading)
@@ -33,4 +34,9 @@ class TodoRepositoryImpl(
     override fun insertTodos(todos: Todo) {
         TODO("Not yet implemented")
     }
+
+    override fun updateTodo(todo: Todo) {
+        TODO("Not yet implemented")
+    }
+
 }

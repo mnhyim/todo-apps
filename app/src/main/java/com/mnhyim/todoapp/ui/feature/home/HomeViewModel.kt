@@ -11,12 +11,11 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.update
-import kotlinx.coroutines.launch
 
 class HomeViewModel(
     /* TODO: Should probably use UseCase or something here instead */
     private val repository: TodoRepository
-): ViewModel() {
+) : ViewModel() {
 
     private val _state = MutableStateFlow(HomeUiState())
     val state = _state.asStateFlow()
@@ -33,11 +32,15 @@ class HomeViewModel(
                     Log.d("HomeViewModel", "Error ${result.exception}")
                 }
                 is Resource.Loading -> _state.update { it.copy(isLoading = true) }
-                is Resource.Success<*> -> {
+                is Resource.Success<List<Todo>> -> {
                     _state.update { it.copy(isLoading = false) }
-                    _state.update { it.copy(todos = result.data as List<Todo>) }
+                    _state.update { it.copy(todos = result.data) }
                 }
             }
         }.launchIn(viewModelScope)
+    }
+
+    fun checkItem(id: Long) {
+
     }
 }

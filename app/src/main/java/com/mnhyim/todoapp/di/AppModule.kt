@@ -32,13 +32,14 @@ fun provideRetrofit(gsonFactory: GsonConverterFactory): Retrofit {
         .addConverterFactory(gsonFactory)
         .build()
 }
+
 fun provideApi(retrofit: Retrofit): TodoApiService {
     return retrofit.create(TodoApiService::class.java)
 }
 
 val networkModule = module {
     single { provideGsonFactory() }
-    single { provideRetrofit(get())}
+    single { provideRetrofit(get()) }
     single { provideApi(get()) }
 }
 
