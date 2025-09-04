@@ -11,5 +11,5 @@ interface TodoRepository {
     fun insertTodos(todos: Todo)
     suspend fun updateTodo(todo: Todo)
 
-    suspend fun refreshTodos()
+    suspend fun fetchTodos()
 }

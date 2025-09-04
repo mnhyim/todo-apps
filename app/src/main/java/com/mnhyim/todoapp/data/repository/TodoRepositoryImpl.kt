@@ -27,8 +27,9 @@ class TodoRepositoryImpl(
         }
     }
 
-    override suspend fun refreshTodos() {
+    override suspend fun fetchTodos() {
         try {
+//            dao.deleteAll()
             val result = api.getTodos()
             result.forEach {
                 dao.insertTodos(it)

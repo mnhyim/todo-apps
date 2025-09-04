@@ -59,7 +59,7 @@ class HomeViewModel(
     fun fetchTodos() {
         viewModelScope.launch {
             _state.update { it.copy(isLoading = true) }
-            repository.refreshTodos()
+            repository.fetchTodos()
             _state.update { it.copy(isLoading = false) }
         }
     }

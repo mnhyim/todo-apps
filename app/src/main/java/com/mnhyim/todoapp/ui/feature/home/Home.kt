@@ -61,15 +61,16 @@ private fun HomeScreen(
     ) {
         Button(
             onClick = onRefresh,
-            modifier = Modifier.padding(16.dp)
+            modifier = Modifier.padding(16.dp, 16.dp, 16.dp, 0.dp)
         ) {
             Text("REFRESH")
         }
         Row(
-            modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp)
+            modifier = Modifier.padding(horizontal = 16.dp, vertical = 16.dp)
         ) {
             repeat(7) {
                 Card(
+                    onClick = {},
                     modifier = Modifier
                         .weight(1f)
                         .padding(horizontal = 4.dp)
@@ -90,7 +91,7 @@ private fun HomeScreen(
             modifier = Modifier.padding(horizontal = 16.dp)
         ) {
             items(5) {
-                Card {
+                Card(onClick = {}) {
                     Text(
                         text = "Category $it",
                         style = MaterialTheme.typography.titleSmall,
