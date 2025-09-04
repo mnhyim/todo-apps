@@ -47,6 +47,24 @@ private fun HomeScreen(
     Column(
         modifier = modifier
     ) {
+        Row(
+            modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp)
+        ) {
+            repeat(7) {
+                Card(
+                    modifier = Modifier.weight(1f).padding(horizontal = 4.dp)
+                ) {
+                    Column(
+                        horizontalAlignment = Alignment.CenterHorizontally,
+                        modifier = Modifier.padding(8.dp)
+                    ) {
+                        Text("May", style = MaterialTheme.typography.labelSmall)
+                        Text("23", style = MaterialTheme.typography.titleMedium)
+                        Text("Sat", style = MaterialTheme.typography.bodySmall)
+                    }
+                }
+            }
+        }
         LazyRow(
             horizontalArrangement = Arrangement.spacedBy(8.dp),
             modifier = Modifier.padding(horizontal = 16.dp)
