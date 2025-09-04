@@ -6,7 +6,10 @@ import kotlinx.coroutines.flow.Flow
 
 interface TodoRepository {
 
-    fun getTodos(): Flow<Resource<List<Todo>>>
+    val todos: Flow<List<Todo>>
+    fun getTodoss(): Flow<Resource<List<Todo>>>
     fun insertTodos(todos: Todo)
-    fun updateTodo(todo: Todo)
+    suspend fun updateTodo(todo: Todo)
+
+    suspend fun refreshTodos()
 }

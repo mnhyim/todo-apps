@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
+import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.Checkbox
 import androidx.compose.material3.CircularProgressIndicator
@@ -30,7 +31,14 @@ fun Home(
     viewModel: HomeViewModel = koinViewModel(),
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
+    val todos by viewModel.todos.collectAsStateWithLifecycle()
 
+    HomeScreen(
+        items = todos,
+        onCheckItem = { viewModel.checkItem(it) },
+        onRefresh = viewModel::fetchTodos,
+        modifier = modifier
+    )
     if (state.isLoading) {
         Box(
             contentAlignment = Alignment.Center,
@@ -39,22 +47,24 @@ fun Home(
             CircularProgressIndicator()
         }
     }
-    HomeScreen(
-        items = state.todos,
-        onCheckItem = { viewModel.checkItem(it) },
-        modifier = modifier
-    )
 }
 
 @Composable
 private fun HomeScreen(
     items: List<Todo>,
-    onCheckItem: (Long) -> Unit,
+    onCheckItem: (Todo) -> Unit,
+    onRefresh: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     Column(
         modifier = modifier
     ) {
+        Button(
+            onClick = onRefresh,
+            modifier = Modifier.padding(16.dp)
+        ) {
+            Text("REFRESH")
+        }
         Row(
             modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp)
         ) {
@@ -103,7 +113,7 @@ private fun HomeScreen(
 @Composable
 fun TodoItem(
     item: Todo,
-    onCheckItem: (Long) -> Unit,
+    onCheckItem: (Todo) -> Unit,
     modifier: Modifier = Modifier
 ) {
     Card(modifier = modifier) {
@@ -121,7 +131,7 @@ fun TodoItem(
             )
             Checkbox(
                 checked = item.completed,
-                onCheckedChange = { onCheckItem(item.id) },
+                onCheckedChange = { onCheckItem(item) },
             )
         }
     }

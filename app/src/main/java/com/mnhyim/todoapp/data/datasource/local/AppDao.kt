@@ -2,6 +2,7 @@ package com.mnhyim.todoapp.data.datasource.local
 
 import androidx.room.Dao
 import androidx.room.Insert
+import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Update
 import com.mnhyim.todoapp.data.entity.TodoEntity
@@ -13,9 +14,9 @@ interface AppDao {
     @Query("SELECT * FROM todos")
     fun getTodos(): Flow<List<TodoEntity>>
 
-    @Insert
-    fun insertTodos(vararg todos: TodoEntity)
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertTodos(vararg todos: TodoEntity)
 
     @Update
-    fun updateTodo(todo: TodoEntity)
+    suspend fun updateTodo(todo: TodoEntity)
 }
