@@ -10,40 +10,31 @@ import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Card
 import androidx.compose.material3.Checkbox
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.mnhyim.todoapp.domain.model.Todo
+import org.koin.compose.viewmodel.koinViewModel
 
 @Composable
 fun Home(
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    viewModel: HomeViewModel = koinViewModel(),
 ) {
-    val dummyItems = listOf(
-        Todo(
-            userId = 1,
-            id = 1,
-            title = "Dummy 1",
-            completed = false
-        ),
-        Todo(
-            userId = 2,
-            id = 2,
-            title = "Dummy 2",
-            completed = true
-        ),
-        Todo(
-            userId = 3,
-            id = 3,
-            title = "Dummy 3",
-            completed = false
-        )
-    )
+    val state by viewModel.state.collectAsStateWithLifecycle()
+
+    if (state.isLoading) {
+        CircularProgressIndicator()
+    }
     HomeScreen(
-        items = dummyItems,
+        items = state.todos,
         modifier = modifier
     )
 }
@@ -87,8 +78,7 @@ fun TodoItem(
     onCheckItem: (Long) -> Unit,
     modifier: Modifier = Modifier
 ) {
-    /* TODO: Change to use real data from model later on */
-    Card {
+    Card(modifier = modifier) {
         Row(
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.SpaceBetween,
@@ -98,7 +88,8 @@ fun TodoItem(
         ) {
             Text(
                 text = item.title,
-                style = MaterialTheme.typography.titleMedium
+                style = MaterialTheme.typography.titleSmall,
+                modifier = Modifier.fillMaxWidth(0.8f)
             )
             Checkbox(
                 checked = item.completed,
