@@ -1,6 +1,7 @@
 package com.mnhyim.todoapp
 
 import android.app.Application
+import com.mnhyim.todoapp.di.databaseModule
 import org.koin.android.ext.koin.androidContext
 import org.koin.core.context.startKoin
 
@@ -9,6 +10,9 @@ class MainApp: Application() {
         super.onCreate()
         startKoin {
             androidContext(this@MainApp)
+            modules(
+                databaseModule
+            )
         }
     }
 }
