@@ -2,6 +2,7 @@ package com.mnhyim.todoapp
 
 import android.app.Application
 import com.mnhyim.todoapp.di.databaseModule
+import com.mnhyim.todoapp.di.networkModule
 import org.koin.android.ext.koin.androidContext
 import org.koin.core.context.startKoin
 
@@ -11,7 +12,8 @@ class MainApp: Application() {
         startKoin {
             androidContext(this@MainApp)
             modules(
-                databaseModule
+                databaseModule,
+                networkModule
             )
         }
     }

@@ -2,9 +2,12 @@ package com.mnhyim.todoapp.di
 
 import androidx.room.Room
 import com.mnhyim.todoapp.data.datasource.local.AppDatabase
+import com.mnhyim.todoapp.data.datasource.remote.TodoApiService
 import com.mnhyim.todoapp.data.repository.TodoRepositoryImpl
 import com.mnhyim.todoapp.domain.repository.TodoRepository
 import org.koin.dsl.module
+import retrofit2.Retrofit
+import retrofit2.converter.gson.GsonConverterFactory
 
 val databaseModule = module {
     single {
@@ -16,5 +19,23 @@ val databaseModule = module {
     }
 
     single { get<AppDatabase>().appDao() }
-    single<TodoRepository> { TodoRepositoryImpl(get()) }
+    single<TodoRepository> { TodoRepositoryImpl(get(), get()) }
+}
+
+/* NETWORK DI STUFF */
+fun provideGsonFactory() = GsonConverterFactory.create()
+fun provideRetrofit(gsonFactory: GsonConverterFactory): Retrofit {
+    return Retrofit.Builder()
+        .baseUrl("jsonplaceholder.typicode.com")
+        .addConverterFactory(gsonFactory)
+        .build()
+}
+fun provideApi(retrofit: Retrofit): TodoApiService {
+    return retrofit.create(TodoApiService::class.java)
+}
+
+val networkModule = module {
+    single { provideGsonFactory() }
+    single { provideRetrofit(get())}
+    single { provideApi(get()) }
 }
